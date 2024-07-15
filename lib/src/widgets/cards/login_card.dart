@@ -17,6 +17,7 @@ class _LoginCard extends StatefulWidget {
     required this.onSwitchConfirmSignup,
     required this.requireSignUpConfirmation,
     this.onSubmitCompleted,
+    this.hideRememberMe = false,
     this.hideForgotPasswordButton = false,
     this.hideSignUpButton = false,
     this.loginAfterSignUp = true,
@@ -33,6 +34,7 @@ class _LoginCard extends StatefulWidget {
   final VoidCallback onSwitchSignUpAdditionalData;
   final VoidCallback onSwitchConfirmSignup;
   final VoidCallback? onSubmitCompleted;
+  final bool hideRememberMe;
   final bool hideForgotPasswordButton;
   final bool hideSignUpButton;
   final bool loginAfterSignUp;
@@ -189,6 +191,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
         LoginData(
           name: auth.email,
           password: auth.password,
+          rememberMe: auth.rememberMe,
         ),
       );
     } else {
@@ -453,6 +456,15 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
           : (value) => null,
       onSaved: (value) => auth.confirmPassword = value!,
       initialIsoCode: widget.initialIsoCode,
+    );
+  }
+
+  Widget _buildRememberMe(ThemeData theme, LoginMessages messages, Auth auth) {
+    return FadeIn(
+      controller: widget.loadingController,
+      offset: .15,
+      curve: _textButtonLoadingAnimationInterval,
+      child: RememberMeCheckbox(title: messages.rememberMe, auth: auth),
     );
   }
 
@@ -759,6 +771,12 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
             width: cardWidth,
             child: Column(
               children: <Widget>[
+                if (!widget.hideRememberMe)
+                  _buildRememberMe(theme, messages, auth)
+                else
+                  SizedBox.fromSize(
+                    size: const Size.fromHeight(16),
+                  ),
                 if (!widget.hideForgotPasswordButton)
                   _buildForgotPassword(theme, messages)
                 else

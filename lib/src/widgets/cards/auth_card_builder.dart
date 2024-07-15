@@ -19,6 +19,7 @@ import 'package:flutter_login/src/widgets/animated_text_form_field.dart';
 import 'package:flutter_login/src/widgets/custom_page_transformer.dart';
 import 'package:flutter_login/src/widgets/expandable_container.dart';
 import 'package:flutter_login/src/widgets/fade_in.dart';
+import 'package:flutter_login/src/widgets/remember_me_checkbox.dart';
 import 'package:flutter_login/src/widgets/term_of_service_checkbox.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +42,7 @@ class AuthCard extends StatefulWidget {
     this.passwordValidator,
     this.onSubmit,
     this.onSubmitCompleted,
+    this.hideRememberMe = false,
     this.hideForgotPasswordButton = false,
     this.hideSignUpButton = false,
     this.loginAfterSignUp = true,
@@ -63,6 +65,7 @@ class AuthCard extends StatefulWidget {
   final FormFieldValidator<String>? passwordValidator;
   final VoidCallback? onSubmit;
   final VoidCallback? onSubmitCompleted;
+  final bool hideRememberMe;
   final bool hideForgotPasswordButton;
   final bool hideSignUpButton;
   final bool loginAfterSignUp;
@@ -376,6 +379,7 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
             requireSignUpConfirmation: requireSignUpConfirmation,
             onSwitchConfirmSignup: () => _changeCard(_confirmSignup),
             hideSignUpButton: widget.hideSignUpButton,
+            hideRememberMe: widget.hideRememberMe,
             hideForgotPasswordButton: widget.hideForgotPasswordButton,
             loginAfterSignUp: widget.loginAfterSignUp,
             hideProvidersTitle: widget.hideProvidersTitle,

@@ -292,6 +292,7 @@ class FlutterLogin extends StatefulWidget {
     this.titleTag,
     this.showDebugButtons = false,
     this.loginProviders = const <LoginProvider>[],
+    this.hideRememberMe = false,
     this.hideForgotPasswordButton = false,
     this.loginAfterSignUp = true,
     this.footer,
@@ -306,6 +307,7 @@ class FlutterLogin extends StatefulWidget {
     this.onResendCode,
     this.savedEmail = '',
     this.savedPassword = '',
+    this.rememberMe = false,
     this.initialAuthMode = AuthMode.login,
     this.children,
     this.scrollable = false,
@@ -390,6 +392,9 @@ class FlutterLogin extends StatefulWidget {
   /// Optional
   final BeforeAdditionalFieldsCallback? onSwitchToAdditionalFields;
 
+  /// Set to true to hide the RememberMe checkbox
+  final bool hideRememberMe;
+
   /// Set to true to hide the Forgot Password button
   final bool hideForgotPasswordButton;
 
@@ -437,6 +442,8 @@ class FlutterLogin extends StatefulWidget {
   /// Prefilled (ie. saved from previous session) value at startup for password (applies both
   /// to Auth class password and confirmation password)
   final String savedPassword;
+
+  final bool rememberMe;
 
   /// List of terms of service to be listed during registration. On onSignup callback LoginData contains a list of TermOfServiceResult
   final List<TermOfService> termsOfService;
@@ -803,6 +810,7 @@ class _FlutterLoginState extends State<FlutterLogin>
             email: widget.savedEmail,
             password: widget.savedPassword,
             confirmPassword: widget.savedPassword,
+            rememberMe: widget.rememberMe,
             onConfirmRecover: widget.onConfirmRecover,
             onConfirmSignup: widget.onConfirmSignup,
             confirmSignupRequired: widget.confirmSignupRequired,
@@ -843,6 +851,8 @@ class _FlutterLoginState extends State<FlutterLogin>
                         onSubmit: _reverseHeaderAnimation,
                         onSubmitCompleted: widget.onSubmitAnimationCompleted,
                         hideSignUpButton: widget.onSignup == null,
+                        hideRememberMe:
+                            widget.hideRememberMe,
                         hideForgotPasswordButton:
                             widget.hideForgotPasswordButton,
                         loginAfterSignUp: widget.loginAfterSignUp,
